@@ -39,6 +39,29 @@ Tines Webhook (Retrieve Detections)
 
 ---
 
+## Demo
+
+### 1. Attack Simulation — LaZagne Executed on Endpoint
+![LaZagne Execution](screenshots/05-lazagne-execution.webp)
+
+### 2. LimaCharlie — Detections Triggered
+![LimaCharlie Detections](screenshots/04-limacharlie-detections.webp)
+
+### 3. Slack — Initial Alert Received
+![Slack Alerts](screenshots/01-slack-alerts.webp)
+> Top of channel shows a false positive (svchost.exe / PushToInstall matching `ends with: all`). The two alerts below are real LaZagne detections. Bottom shows isolation confirmation.
+
+### 4. Tines — Analyst Decision Prompt (Human-in-the-Loop)
+![Tines User Prompt](screenshots/03-tines-user-prompt.webp)
+
+### 5. LimaCharlie — Sensor Isolated
+![LimaCharlie Isolated](screenshots/02-limacharlie-sensor-isolated.webp)
+
+### 6. Tines — Full Storyboard
+![Tines Storyboard](screenshots/06-tines-storyboard.webp)
+
+---
+
 ## Tines Workflow (10 Agents)
 
 Story name: **`mannntek-SOAR-EDR`**
@@ -108,7 +131,7 @@ rules:
 
 ## Alert & Notification Content
 
-### Initial Slack / Email Alert (from `retrieve_detections` webhook data)
+### Initial Slack / Email Alert
 
 ```
 Title:          <<retrieve_detections.body.cat>>
@@ -122,13 +145,6 @@ Sensor ID:      <<retrieve_detections.body.detect.routing.sid>>
 Detection Link: <<retrieve_detections.body.link>>
 ```
 
-### User Prompt (FormAgent — `User Prompt`)
-
-- Description: `Isolate Computer (Yes/No)`
-- Field: BOOLEAN toggle — **Isolate?**
-- Buttons: **Yes** / **No** + **Submit**
-- On submit → `<<user_prompt.body.isolate>>` is `"true"` or `"false"`
-
 ### Isolation API Calls
 
 ```
@@ -141,7 +157,7 @@ GET  https://api.limacharlie.io/v1/<<retrieve_detections.body.detect.routing.sid
 Authorization: Bearer <<CREDENTIAL.limacharlie>>
 ```
 
-### Confirmation Slack Message (after successful isolation)
+### Confirmation Slack Message
 
 ```
 Isolation Status: <<get_isolation_status.body.is_isolated>>
@@ -160,7 +176,7 @@ The computer: <<retrieve_detections.body.detect.routing.hostname>> was not isola
 
 | Metric | Result |
 |--------|--------|
-| Detection trigger | `.\lazagne.exe` / `.\lazagne.exe all` on Windows 11 VM |
+| Detection trigger | `.\lazagne.exe` on Windows 11 VM (ARM 64-bit) |
 | Detection latency | < 500 ms |
 | Slack alert delivery | < 2 seconds |
 | Email alert delivery | < 5 seconds |
@@ -192,7 +208,12 @@ SOAR-EDR-Incident-Response-Lab/
 ├── docs/
 │   └── architecture.png      # Drawio architecture diagram
 └── screenshots/
-    └── README.md             # Screenshots directory (add manually)
+    ├── 01-slack-alerts.webp
+    ├── 02-limacharlie-sensor-isolated.webp
+    ├── 03-tines-user-prompt.webp
+    ├── 04-limacharlie-detections.webp
+    ├── 05-lazagne-execution.webp
+    └── 06-tines-storyboard.webp
 ```
 
 ---
@@ -214,4 +235,4 @@ SOAR-EDR-Incident-Response-Lab/
 ---
 
 **Lab Status:** ✅ Fully Operational  
-**Last Updated:** 2025-05-17
+**Last Updated:** 2026-05-26
