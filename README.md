@@ -1,7 +1,7 @@
 # SOAR & EDR Incident Response Automation Lab
 
 > Automated incident response pipeline using **Tines** (SOAR) + **LimaCharlie** (EDR).  
-> Detects LaZagne credential-theft tool execution, notifies analysts via Slack & Email, and isolates the endpoint with a single click — all with human-in-the-loop approval.
+> Detects LaZagne credential-theft tool execution, notifies analysts via Slack & Email, and isolates the endpoint with a single click all with human-in-the-loop approval.
 
 ---
 
